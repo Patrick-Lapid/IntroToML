@@ -1,4 +1,5 @@
 import { Card, Group, Stack, Text } from "@mantine/core";
+import Typewriter from "typewriter-effect";
 import FileDropZone from "./components/FileDropzone";
 
 function App() {
@@ -9,10 +10,16 @@ function App() {
           Upload Document for Text Extraction
         </Text>
         <Card bg="#fbfbff" radius="md" padding="lg" shadow="md">
-          <Group>
+          <Group justify="space-between">
             <FileDropZone />
             <div style={{ width: 500 }}>
-              <Text>Text Generation</Text>
+              <Typewriter
+                options={{
+                  strings: ["Example Text 1", "Example Text 2"],
+                  autoStart: true,
+                  loop: true,
+                }}
+              />
             </div>
           </Group>
         </Card>
