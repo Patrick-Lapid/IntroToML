@@ -3,6 +3,8 @@ import { IconUpload, IconPhoto, IconX } from "@tabler/icons-react";
 import { Dropzone, DropzoneProps, IMAGE_MIME_TYPE } from "@mantine/dropzone";
 
 const FileDropZone = (props: Partial<DropzoneProps>) => {
+
+  
   return (
     <Stack gap="sm">
       <Dropzone

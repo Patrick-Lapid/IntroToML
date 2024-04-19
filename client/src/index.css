@@ -71,68 +71,83 @@ body {
 @keyframes one {
   0% {
     left: 0px;
-    top: 10px;
+    top: 30px;
   }
   25% {
     left: -400px;
-    top: 70px;
+    top: 90px;
   }
   50% {
     left: 60px;
-    top: 150px;
+    top: 170px;
   }
   75% {
     left: 70px;
-    top: 100px;
+    top: 120px;
   }
   100% {
     left: 0px;
-    top: 10px;
+    top: 30px;
   }
 }
 
 @keyframes two {
   0% {
     left: -20px;
-    top: 30px;
+    top: 50px;
   }
   25% {
     left: 50px;
-    top: 20px;
+    top: 40px;
   }
   50% {
     left: 70px;
-    top: 40px;
+    top: 60px;
   }
   75% {
     left: 150px;
-    top: 22px;
+    top: 42px;
   }
   100% {
     left: -20px;
-    top: 30px;
+    top: 50px;
   }
 }
 
 @keyframes three {
   0% {
     left: 0px;
-    top: 10px;
+    top: 30px;
   }
   25% {
     left: 400px;
-    top: 170px;
+    top: 190px;
   }
   50% {
     left: 420px;
-    top: 250px;
+    top: 270px;
   }
   75% {
     left: 70px;
-    top: 100px;
+    top: 120px;
   }
   100% {
     left: 0px;
-    top: 10px;
+    top: 30px;
   }
+}
+
+.resultCard :hover {
+  cursor: pointer;
+}
+
+.resultCardWrapper {
+  position: fixed;
+  display: flex;
+  justify-content: center;
+  width: 100%;
+  top: 0;
+  bottom: 0;
+  backdrop-filter: blur(8px);
+  z-index: 200;
 }
