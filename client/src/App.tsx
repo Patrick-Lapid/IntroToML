@@ -6,6 +6,7 @@ import {
   Group,
   Overlay,
   ScrollArea,
+  Skeleton,
   Stack,
   Text,
   rgba,
@@ -15,9 +16,22 @@ import { useState } from "react";
 import { IconTrash } from "@tabler/icons-react";
 import { AnimatePresence, motion } from "framer-motion";
 
+interface File {
+  index: string;
+}
+
 function App() {
-  const [files, setFiles] = useState([4, 5, 6]);
+  const [files, setFiles] = useState<File[]>([
+    { index: "1" },
+    { index: "2" },
+    { index: "3" },
+  ]);
   const [selectedId, setSelectedId] = useState<null | string>(null);
+
+  const removeFile = (id: string) => {
+    const newFiles = files.filter((file) => file.index !== id);
+    setFiles(newFiles);
+  };
 
   return (
     <>
@@ -38,11 +52,12 @@ function App() {
             <ScrollArea w={500} h={302}>
               <Stack gap={8} mt={1}>
                 {files.length > 0 &&
-                  files.map((file, index) => (
+                  files.map((file) => (
                     <motion.div
+                      key={file.index}
                       className="resultCard"
-                      layoutId={index.toString()}
-                      onClick={() => setSelectedId(index.toString())}
+                      layoutId={file.index}
+                      onClick={() => setSelectedId(file.index)}
                     >
                       <Card padding="sm" shadow="none" radius="md">
                         <Group justify="space-between">
@@ -55,6 +70,7 @@ function App() {
                             size="md"
                             onClick={(e) => {
                               e.stopPropagation();
+                              removeFile(file.index);
                             }}
                           >
                             <IconTrash
@@ -81,28 +97,45 @@ function App() {
               withBorder
               shadow="none"
               h={400}
+              w={900}
               mt={30}
             >
-              <Group justify="space-between" mt="md" mb="xs">
-                <Text fw={500}>Norway Fjord Adventures</Text>
-                <Badge color="pink">On Sale</Badge>
-              </Group>
+              <Stack justify="space-between" h={400}>
+                <Group justify="space-between" mt="md" mb="xs">
+                  <Text fw={700} size="xl">
+                    Text Extraction Output
+                  </Text>
+                  <Badge color="pink">Analyze</Badge>
+                </Group>
 
-              <Text size="sm" c="dimmed">
-                With Fjord Tours you can explore more of the magical fjord
-                landscapes with tours and activities on and around the fjords of
-                Norway
-              </Text>
+                <div>
+                  <Skeleton height={8} radius="xl" width="80%" />
+                  <Skeleton height={8} mt={6} radius="xl" width="70%" />
+                  <Skeleton height={8} mt={6} radius="xl" width="74%" />
+                  <Skeleton height={8} mt={6} radius="xl" width="70%" />
+                  <Skeleton height={8} mt={6} radius="xl" width="75%" />
+                  <Skeleton height={8} mt={6} radius="xl" width="83%" />
+                  <Skeleton height={8} mt={6} radius="xl" width="90%" />
+                  <Skeleton height={8} mt={6} radius="xl" width="95%" />
+                  <Skeleton height={8} mt={6} radius="xl" width="70%" />
+                  <Skeleton height={8} mt={6} radius="xl" width="74%" />
+                  <Skeleton height={8} mt={6} radius="xl" width="70%" />
+                  <Skeleton height={8} mt={6} radius="xl" width="75%" />
+                  <Skeleton height={8} mt={6} radius="xl" width="83%" />
+                  <Skeleton height={8} mt={6} radius="xl" width="90%" />
+                  <Skeleton height={8} mt={6} radius="xl" width="95%" />
+                </div>
 
-              <Button
-                color="blue"
-                onClick={() => setSelectedId(null)}
-                fullWidth
-                mt="md"
-                radius="md"
-              >
-                Book classic tour now
-              </Button>
+                <Button
+                  color="blue"
+                  onClick={() => setSelectedId(null)}
+                  fullWidth
+                  mt="md"
+                  radius="md"
+                >
+                  Close
+                </Button>
+              </Stack>
             </Card>
           </motion.div>
         )}
