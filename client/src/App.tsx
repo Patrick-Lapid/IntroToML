@@ -173,11 +173,7 @@ function App() {
                     <>
                       {selectedFile.url && (
                         <div className="parent">
-                          <img
-                            src={selectedFile.url}
-                            alt="Uploaded"
-                            height={200}
-                          />
+                          <img src={selectedFile.url} alt="Uploaded" />
                         </div>
                       )}
                       <Text fw={700} size="xl" mt="sm" w="100%">
