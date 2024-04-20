@@ -15,7 +15,7 @@ const FileDropZone = (props: DropZoneProps) => {
       <Dropzone
         onDrop={(files) => props.handleFileUpload(files[0])}
         onReject={(files) => console.log("rejected files", files)}
-        maw={600}
+        w={600}
         openRef={openRef}
         maxSize={5 * 1024 ** 2}
         accept={IMAGE_MIME_TYPE}

@@ -12,41 +12,73 @@ import {
   rgba,
 } from "@mantine/core";
 import FileDropZone from "./components/FileDropzone";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { IconTrash } from "@tabler/icons-react";
 import { AnimatePresence, motion } from "framer-motion";
+import { predictImage } from "./Api";
 
 interface File {
   index: string;
   loading: boolean;
   url: string;
+  output: string;
 }
 
 function App() {
-  const [files, setFiles] = useState<File[]>([
-    // { index: "1", loading: true, url: "" },
-    // { index: "2", loading: true, url: "" },
-    // { index: "3", loading: true, url: "" },
-  ]);
+  const [files, setFiles] = useState<File[]>([]);
   const [selectedFile, setSelectedFile] = useState<null | File>(null);
 
-  const fileUpload = (file: any) => {
-    console.log(file);
+  // updates selected index state with latest version of file state
+  useEffect(() => {
+    if (selectedFile) {
+      const fileIndex = files.findIndex(
+        (file) => file.index === selectedFile.index
+      );
+      if (fileIndex === -1) return;
+
+      setSelectedFile(files[fileIndex]);
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [files]);
+
+  const fileUpload = async (file: any) => {
     const src = URL.createObjectURL(file);
+
     setFiles((prevFiles) => [
       ...prevFiles,
       {
         index: file.name,
-        loading: false,
+        loading: true,
         url: src,
+        output: "",
       },
     ]);
+
+    const formData = new FormData();
+    formData.append("file", file);
+    const extractedText = await predictImage(formData);
+    updateFile(file.name, extractedText);
+
     // avoid memory leaks
     return () => URL.revokeObjectURL(src);
   };
 
-  const handleFileSelection = (file: File) => {
-    setSelectedFile(file);
+  const updateFile = (id: string, outputText: string) => {
+    setFiles((prevFiles) => {
+      const fileIndex = prevFiles.findIndex((file) => file.index === id);
+      if (fileIndex === -1) return prevFiles; // File not found, just return previous files
+
+      // Create a new array with updated file
+      const newFiles = [...prevFiles];
+      const updatedFile = {
+        ...prevFiles[fileIndex],
+        output: outputText,
+        loading: false,
+      };
+      newFiles[fileIndex] = updatedFile;
+
+      return newFiles;
+    });
   };
 
   const removeFile = (id: string) => {
@@ -78,7 +110,7 @@ function App() {
                       key={file.index}
                       className="resultCard"
                       layoutId={file.index}
-                      onClick={() => handleFileSelection(file)}
+                      onClick={() => setSelectedFile(file)}
                     >
                       <Card padding="sm" shadow="none" radius="md">
                         <Group justify="space-between">
@@ -184,19 +216,7 @@ function App() {
                         Text Extraction Output
                       </Text>
                       <ScrollArea h={120} px="sm">
-                        Lorem ipsum dolor sit, amet consectetur adipisicing
-                        elit. Assumenda ut fugiat optio nesciunt! Quidem,
-                        consequatur dicta unde accusamus officiis, eius neque
-                        quis, recusandae rem doloribus harum odit et assumenda
-                        modi. Lorem ipsum dolor sit, amet consectetur
-                        adipisicing elit. Assumenda ut fugiat optio nesciunt!
-                        Quidem, consequatur dicta unde accusamus officiis, eius
-                        neque quis, recusandae rem doloribus harum odit et
-                        assumenda modi. Lorem ipsum dolor sit, amet consectetur
-                        adipisicing elit. Assumenda ut fugiat optio nesciunt!
-                        Quidem, consequatur dicta unde accusamus officiis, eius
-                        neque quis, recusandae rem doloribus harum odit et
-                        assumenda modi.
+                        {selectedFile.output}
                       </ScrollArea>
                     </Group>
                   )}
