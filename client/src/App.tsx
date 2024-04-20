@@ -28,6 +28,17 @@ function App() {
   ]);
   const [selectedId, setSelectedId] = useState<null | string>(null);
 
+  const fileUpload = (file: any) => {
+    console.log(file);
+    setFiles((prevFiles) => [
+      ...prevFiles,
+      {
+        index: file.name,
+        loading: true,
+      },
+    ]);
+  };
+
   const removeFile = (id: string) => {
     const newFiles = files.filter((file) => file.index !== id);
     setFiles(newFiles);
@@ -48,7 +59,7 @@ function App() {
         </Text>
         <Card radius="md" padding="lg" shadow="md" bg={rgba("#FFFFFF", 0.6)}>
           <Group justify="space-between" gap={16}>
-            <FileDropZone />
+            <FileDropZone handleFileUpload={fileUpload} />
             <ScrollArea w={500} h={302}>
               <Stack gap={8} mt={1}>
                 {files.length > 0 &&
@@ -61,7 +72,7 @@ function App() {
                     >
                       <Card padding="sm" shadow="none" radius="md">
                         <Group justify="space-between">
-                          <Text>Test.pdf</Text>
+                          <Text>{file.index}</Text>
 
                           <ActionIcon
                             variant="light"

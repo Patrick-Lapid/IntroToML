@@ -1,19 +1,24 @@
 import { Button, Stack, Group, Text, rem } from "@mantine/core";
 import { IconUpload, IconPhoto, IconX } from "@tabler/icons-react";
-import { Dropzone, DropzoneProps, IMAGE_MIME_TYPE } from "@mantine/dropzone";
+import { Dropzone, IMAGE_MIME_TYPE } from "@mantine/dropzone";
+import { useRef } from "react";
 
-const FileDropZone = (props: Partial<DropzoneProps>) => {
+interface DropZoneProps {
+  handleFileUpload: (file: any) => void;
+}
 
-  
+const FileDropZone = (props: DropZoneProps) => {
+  const openRef = useRef<() => void>(null);
+
   return (
     <Stack gap="sm">
       <Dropzone
-        onDrop={(files) => console.log("accepted files", files)}
+        onDrop={(files) => props.handleFileUpload(files[0])}
         onReject={(files) => console.log("rejected files", files)}
         w={600}
+        openRef={openRef}
         maxSize={5 * 1024 ** 2}
         accept={IMAGE_MIME_TYPE}
-        {...props}
       >
         <Group
           justify="center"
@@ -62,7 +67,11 @@ const FileDropZone = (props: Partial<DropzoneProps>) => {
           </div>
         </Group>
       </Dropzone>
-      <Button variant="light" color="violet">
+      <Button
+        variant="light"
+        color="violet"
+        onClick={() => openRef.current?.()}
+      >
         Upload Files
       </Button>
     </Stack>
