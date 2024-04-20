@@ -4,9 +4,6 @@ const predictImage = async (formData: any) => {
       `${process.env.REACT_APP_API_URL}/predict-image/`,
       {
         method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
         body: formData,
       }
     );
