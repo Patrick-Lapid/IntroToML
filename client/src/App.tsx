@@ -18,15 +18,16 @@ import { AnimatePresence, motion } from "framer-motion";
 
 interface File {
   index: string;
+  loading: boolean;
 }
 
 function App() {
   const [files, setFiles] = useState<File[]>([
-    { index: "1" },
-    { index: "2" },
-    { index: "3" },
+    { index: "1", loading: true },
+    { index: "2", loading: true },
+    { index: "3", loading: false },
   ]);
-  const [selectedId, setSelectedId] = useState<null | string>(null);
+  const [selectedFile, setSelectedFile] = useState<null | File>(null);
 
   const fileUpload = (file: any) => {
     console.log(file);
@@ -37,6 +38,10 @@ function App() {
         loading: true,
       },
     ]);
+  };
+
+  const handleFileSelection = (file: File) => {
+    setSelectedFile(file);
   };
 
   const removeFile = (id: string) => {
@@ -68,7 +73,11 @@ function App() {
                       key={file.index}
                       className="resultCard"
                       layoutId={file.index}
-                      onClick={() => setSelectedId(file.index)}
+                      onClick={() => {
+                        if (!file.loading) {
+                          handleFileSelection(file);
+                        }
+                      }}
                     >
                       <Card padding="sm" shadow="none" radius="md">
                         <Group justify="space-between">
@@ -77,8 +86,9 @@ function App() {
                           <ActionIcon
                             variant="light"
                             aria-label="Settings"
-                            color="red"
+                            color={file.loading ? "violet" : "red"}
                             size="md"
+                            loading={file.loading}
                             onClick={(e) => {
                               e.stopPropagation();
                               removeFile(file.index);
@@ -98,10 +108,13 @@ function App() {
           </Group>
         </Card>
       </Stack>
-      {selectedId && <Overlay color="#000" backgroundOpacity={0.25} />}
+      {selectedFile && <Overlay color="#000" backgroundOpacity={0.25} />}
       <AnimatePresence>
-        {selectedId && (
-          <motion.div layoutId={selectedId} className="resultCardWrapper">
+        {selectedFile && (
+          <motion.div
+            layoutId={selectedFile.index}
+            className="resultCardWrapper"
+          >
             <Card
               padding="lg"
               radius="md"
@@ -116,30 +129,41 @@ function App() {
                   <Text fw={700} size="xl">
                     Text Extraction Output
                   </Text>
-                  <Badge color="pink">Analyze</Badge>
+                  <Badge color="grape" variant="light">
+                    {selectedFile.index}
+                  </Badge>
                 </Group>
 
-                <div>
-                  <Skeleton height={8} radius="xl" width="80%" />
-                  <Skeleton height={8} mt={6} radius="xl" width="70%" />
-                  <Skeleton height={8} mt={6} radius="xl" width="74%" />
-                  <Skeleton height={8} mt={6} radius="xl" width="70%" />
-                  <Skeleton height={8} mt={6} radius="xl" width="75%" />
-                  <Skeleton height={8} mt={6} radius="xl" width="83%" />
-                  <Skeleton height={8} mt={6} radius="xl" width="90%" />
-                  <Skeleton height={8} mt={6} radius="xl" width="95%" />
-                  <Skeleton height={8} mt={6} radius="xl" width="70%" />
-                  <Skeleton height={8} mt={6} radius="xl" width="74%" />
-                  <Skeleton height={8} mt={6} radius="xl" width="70%" />
-                  <Skeleton height={8} mt={6} radius="xl" width="75%" />
-                  <Skeleton height={8} mt={6} radius="xl" width="83%" />
-                  <Skeleton height={8} mt={6} radius="xl" width="90%" />
-                  <Skeleton height={8} mt={6} radius="xl" width="95%" />
-                </div>
+                {selectedFile.loading ? (
+                  <div>
+                    <Skeleton height={8} radius="xl" width="80%" />
+                    <Skeleton height={8} mt={6} radius="xl" width="70%" />
+                    <Skeleton height={8} mt={6} radius="xl" width="74%" />
+                    <Skeleton height={8} mt={6} radius="xl" width="70%" />
+                    <Skeleton height={8} mt={6} radius="xl" width="75%" />
+                    <Skeleton height={8} mt={6} radius="xl" width="83%" />
+                    <Skeleton height={8} mt={6} radius="xl" width="90%" />
+                    <Skeleton height={8} mt={6} radius="xl" width="95%" />
+                    <Skeleton height={8} mt={6} radius="xl" width="70%" />
+                    <Skeleton height={8} mt={6} radius="xl" width="74%" />
+                    <Skeleton height={8} mt={6} radius="xl" width="70%" />
+                    <Skeleton height={8} mt={6} radius="xl" width="75%" />
+                    <Skeleton height={8} mt={6} radius="xl" width="83%" />
+                    <Skeleton height={8} mt={6} radius="xl" width="90%" />
+                    <Skeleton height={8} mt={6} radius="xl" width="95%" />
+                  </div>
+                ) : (
+                  <div>
+                    Lorem ipsum dolor sit, amet consectetur adipisicing elit.
+                    Assumenda ut fugiat optio nesciunt! Quidem, consequatur
+                    dicta unde accusamus officiis, eius neque quis, recusandae
+                    rem doloribus harum odit et assumenda modi.
+                  </div>
+                )}
 
                 <Button
                   color="blue"
-                  onClick={() => setSelectedId(null)}
+                  onClick={() => setSelectedFile(null)}
                   fullWidth
                   mt="md"
                   radius="md"
