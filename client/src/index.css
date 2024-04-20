@@ -141,6 +141,10 @@ body {
   cursor: pointer;
 }
 
+.resultCardModal {
+  margin-top: 100px !important;
+}
+
 .resultCardWrapper {
   position: fixed;
   display: flex;
@@ -150,4 +154,15 @@ body {
   bottom: 0;
   backdrop-filter: blur(8px);
   z-index: 200;
+}
+
+.parent {
+  height: 200px;
+  margin: auto;
+}
+
+img {
+  display: block;
+  height: 100%;
+  height: auto;
 }

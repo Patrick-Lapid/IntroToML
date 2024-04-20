@@ -19,25 +19,30 @@ import { AnimatePresence, motion } from "framer-motion";
 interface File {
   index: string;
   loading: boolean;
+  url: string;
 }
 
 function App() {
   const [files, setFiles] = useState<File[]>([
-    { index: "1", loading: true },
-    { index: "2", loading: true },
-    { index: "3", loading: false },
+    // { index: "1", loading: true, url: "" },
+    // { index: "2", loading: true, url: "" },
+    // { index: "3", loading: true, url: "" },
   ]);
   const [selectedFile, setSelectedFile] = useState<null | File>(null);
 
   const fileUpload = (file: any) => {
     console.log(file);
+    const src = URL.createObjectURL(file);
     setFiles((prevFiles) => [
       ...prevFiles,
       {
         index: file.name,
-        loading: true,
+        loading: false,
+        url: src,
       },
     ]);
+    // avoid memory leaks
+    return () => URL.revokeObjectURL(src);
   };
 
   const handleFileSelection = (file: File) => {
@@ -73,11 +78,7 @@ function App() {
                       key={file.index}
                       className="resultCard"
                       layoutId={file.index}
-                      onClick={() => {
-                        if (!file.loading) {
-                          handleFileSelection(file);
-                        }
-                      }}
+                      onClick={() => handleFileSelection(file)}
                     >
                       <Card padding="sm" shadow="none" radius="md">
                         <Group justify="space-between">
@@ -116,51 +117,90 @@ function App() {
             className="resultCardWrapper"
           >
             <Card
+              className="resultCardModal"
               padding="lg"
               radius="md"
               withBorder
               shadow="none"
-              h={400}
               w={900}
+              h={575}
               mt={30}
             >
-              <Stack justify="space-between" h={400}>
-                <Group justify="space-between" mt="md" mb="xs">
-                  <Text fw={700} size="xl">
-                    Text Extraction Output
-                  </Text>
-                  <Badge color="grape" variant="light">
-                    {selectedFile.index}
-                  </Badge>
-                </Group>
+              <Stack justify="space-between" h="100%">
+                <Stack>
+                  <Group justify="space-between" mb="sm">
+                    <Text fw={700} size="xl">
+                      Text Extraction Image
+                    </Text>
+                    <Badge color="grape" variant="light">
+                      {selectedFile.index}
+                    </Badge>
+                  </Group>
 
-                {selectedFile.loading ? (
-                  <div>
-                    <Skeleton height={8} radius="xl" width="80%" />
-                    <Skeleton height={8} mt={6} radius="xl" width="70%" />
-                    <Skeleton height={8} mt={6} radius="xl" width="74%" />
-                    <Skeleton height={8} mt={6} radius="xl" width="70%" />
-                    <Skeleton height={8} mt={6} radius="xl" width="75%" />
-                    <Skeleton height={8} mt={6} radius="xl" width="83%" />
-                    <Skeleton height={8} mt={6} radius="xl" width="90%" />
-                    <Skeleton height={8} mt={6} radius="xl" width="95%" />
-                    <Skeleton height={8} mt={6} radius="xl" width="70%" />
-                    <Skeleton height={8} mt={6} radius="xl" width="74%" />
-                    <Skeleton height={8} mt={6} radius="xl" width="70%" />
-                    <Skeleton height={8} mt={6} radius="xl" width="75%" />
-                    <Skeleton height={8} mt={6} radius="xl" width="83%" />
-                    <Skeleton height={8} mt={6} radius="xl" width="90%" />
-                    <Skeleton height={8} mt={6} radius="xl" width="95%" />
-                  </div>
-                ) : (
-                  <div>
-                    Lorem ipsum dolor sit, amet consectetur adipisicing elit.
-                    Assumenda ut fugiat optio nesciunt! Quidem, consequatur
-                    dicta unde accusamus officiis, eius neque quis, recusandae
-                    rem doloribus harum odit et assumenda modi.
-                  </div>
-                )}
-
+                  {selectedFile.loading ? (
+                    <>
+                      {selectedFile.url && (
+                        <div className="parent">
+                          <img
+                            src={selectedFile.url}
+                            alt="Uploaded"
+                            height={200}
+                          />
+                        </div>
+                      )}
+                      <Text fw={700} size="xl" mt="sm" w="100%">
+                        Text Extraction Output
+                      </Text>
+                      <ScrollArea h={120}>
+                        <Skeleton height={8} radius="xl" width="80%" />
+                        <Skeleton height={8} mt={6} radius="xl" width="70%" />
+                        <Skeleton height={8} mt={6} radius="xl" width="74%" />
+                        <Skeleton height={8} mt={6} radius="xl" width="70%" />
+                        <Skeleton height={8} mt={6} radius="xl" width="75%" />
+                        <Skeleton height={8} mt={6} radius="xl" width="83%" />
+                        <Skeleton height={8} mt={6} radius="xl" width="90%" />
+                        <Skeleton height={8} mt={6} radius="xl" width="95%" />
+                        <Skeleton height={8} mt={6} radius="xl" width="70%" />
+                        <Skeleton height={8} mt={6} radius="xl" width="74%" />
+                        <Skeleton height={8} mt={6} radius="xl" width="70%" />
+                        <Skeleton height={8} mt={6} radius="xl" width="75%" />
+                        <Skeleton height={8} mt={6} radius="xl" width="83%" />
+                        <Skeleton height={8} mt={6} radius="xl" width="90%" />
+                        <Skeleton height={8} mt={6} radius="xl" width="95%" />
+                      </ScrollArea>
+                    </>
+                  ) : (
+                    <Group>
+                      {selectedFile.url && (
+                        <div className="parent">
+                          <img
+                            src={selectedFile.url}
+                            alt="Uploaded"
+                            height={200}
+                          />
+                        </div>
+                      )}
+                      <Text fw={700} size="xl" mt="sm" w="100%">
+                        Text Extraction Output
+                      </Text>
+                      <ScrollArea h={120} px="sm">
+                        Lorem ipsum dolor sit, amet consectetur adipisicing
+                        elit. Assumenda ut fugiat optio nesciunt! Quidem,
+                        consequatur dicta unde accusamus officiis, eius neque
+                        quis, recusandae rem doloribus harum odit et assumenda
+                        modi. Lorem ipsum dolor sit, amet consectetur
+                        adipisicing elit. Assumenda ut fugiat optio nesciunt!
+                        Quidem, consequatur dicta unde accusamus officiis, eius
+                        neque quis, recusandae rem doloribus harum odit et
+                        assumenda modi. Lorem ipsum dolor sit, amet consectetur
+                        adipisicing elit. Assumenda ut fugiat optio nesciunt!
+                        Quidem, consequatur dicta unde accusamus officiis, eius
+                        neque quis, recusandae rem doloribus harum odit et
+                        assumenda modi.
+                      </ScrollArea>
+                    </Group>
+                  )}
+                </Stack>
                 <Button
                   color="blue"
                   onClick={() => setSelectedFile(null)}
