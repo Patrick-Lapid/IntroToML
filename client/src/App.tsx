@@ -63,7 +63,7 @@ function App() {
           <div className="bg-shape3 bg-teal bg-blur"></div>
         </div>
       </div>
-      <Stack mt={140} align="center" gap="lg">
+      <Stack mt={140} align="center" gap="lg" px="lg">
         <Text ta="center" fw={700} size="xl">
           Upload Document for Text Extraction
         </Text>

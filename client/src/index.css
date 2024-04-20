@@ -19,6 +19,7 @@ body {
   inset: 0px;
   justify-content: center;
   position: absolute;
+  overflow: hidden;
   display: inline-flex;
 }
 
@@ -29,6 +30,7 @@ body {
   opacity: 0.5;
   position: relative;
   animation: one 24s infinite;
+
   z-index: -1;
 }
 
