@@ -3,6 +3,7 @@ from fastapi.middleware.cors import CORSMiddleware
 from PIL import Image
 import numpy as np
 import cv2
+import os
 import imutils
 from imutils.contours import sort_contours
 import tensorflow as tf
@@ -69,13 +70,24 @@ def read_imagefile(file) -> Image.Image:
 
 @app.post("/predict-image/")
 async def predict_image(file: UploadFile = File(...)):
-    fileContent = file.file.read()
-    print("File Content: ", fileContent)
-    image = read_imagefile(fileContent)
-    image.save("temp.jpg")
-    original_image, extracted_chars = preprocess_and_extract_characters("temp.jpg")
+    # fileContent = file.file.read()
+    print("File Information: ", file, file.filename, file.size, file.content_type)
+    # image = read_imagefile(fileContent)
+    # image.save("temp.jpg")
+    upload_folder = 'uploaded_files'
+    os.makedirs(upload_folder, exist_ok=True)
+
+    file_location = os.path.join(upload_folder, file.filename)
+
+    content = file.file.read()
+    # if b'\0' in content:
+    #     raise ValueError("File contains an embedded null character.")
+    # Assuming you've sanitized the path where you save the file
+    with open(file_location, "wb") as f:
+        f.write(content)
+
+    original_image, extracted_chars = preprocess_and_extract_characters(file_location)
     predicted_chars = predict_characters(original_image, extracted_chars, model)
     return {"predicted_characters": predicted_chars}
-
 
     return JSONResponse(content={"error": "This file isn't an image."}, status_code=400)
