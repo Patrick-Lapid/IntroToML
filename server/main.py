@@ -88,6 +88,7 @@ async def predict_image(file: UploadFile = File(...)):
 
     original_image, extracted_chars = preprocess_and_extract_characters(file_location)
     predicted_chars = predict_characters(original_image, extracted_chars, model)
-    return {"predicted_characters": predicted_chars}
+    predicted_string = ''.join(predicted_chars)  # Join the characters into a single string
+    return predicted_string
 
     return JSONResponse(content={"error": "This file isn't an image."}, status_code=400)
