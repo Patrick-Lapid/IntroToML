@@ -71,7 +71,6 @@ def read_imagefile(file) -> Image.Image:
 @app.post("/predict-image/")
 async def predict_image(file: UploadFile = File(...)):
     # fileContent = file.file.read()
-    print("File Information: ", file, file.filename, file.size, file.content_type)
     # image = read_imagefile(fileContent)
     # image.save("temp.jpg")
     upload_folder = 'uploaded_files'
@@ -87,6 +86,7 @@ async def predict_image(file: UploadFile = File(...)):
         f.write(content)
 
     original_image, extracted_chars = preprocess_and_extract_characters(file_location)
+
     predicted_chars = predict_characters(original_image, extracted_chars, model)
     predicted_string = ''.join(predicted_chars)  # Join the characters into a single string
     return predicted_string
