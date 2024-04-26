@@ -168,3 +168,21 @@ img {
   height: 100%;
   width: auto;
 }
+
+.footer {
+  position: fixed;
+  width: 100%;
+  bottom: 10px;
+  font-weight: 600;
+  text-align: center;
+}
+
+@media (max-width: 1200px) {
+  footer {
+    display: none;
+  }
+}
+
+a {
+  color: inherit;
+}

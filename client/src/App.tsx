@@ -11,6 +11,7 @@ import {
   Text,
   rgba,
 } from "@mantine/core";
+// import { useMediaQuery } from '@mantine/hooks';
 import FileDropZone from "./components/FileDropzone";
 import { useEffect, useState } from "react";
 import { IconTrash } from "@tabler/icons-react";
@@ -27,6 +28,7 @@ interface File {
 function App() {
   const [files, setFiles] = useState<File[]>([]);
   const [selectedFile, setSelectedFile] = useState<null | File>(null);
+  // const largeScreen = useMediaQuery('(min-width: 768px)'); // Adjust the breakpoint as needed
 
   // updates selected index state with latest version of file state
   useEffect(() => {
@@ -231,6 +233,13 @@ function App() {
           </motion.div>
         )}
       </AnimatePresence>
+
+      <footer className="footer">
+        Made with ❤️ by{" "}
+        <a href="https://github.com/Patrick-Lapid">Patrick Lapid</a>,{" "}
+        <a href="https://github.com/coltkondo">Colt Kondo</a>,{" "}
+        <a href="">Moojin Ahn</a>, & <a href="">Daniel Marzo</a>
+      </footer>
     </>
   );
 }
