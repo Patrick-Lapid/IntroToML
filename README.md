@@ -1,46 +1,65 @@
-# Intro to Machine Learning Project
+# Convolutional Neural Network for Digitizing Handwritten Notes
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+For more detailed insights, you can read our academic paper on the development of this technology. Access the paper here: [CNN.pdf](./paper/CNN.pdf)
 
-## Available Scripts
+### Overview
+This web application leverages a Convolutional Neural Network (CNN) to accurately convert images of handwritten text into digital text. The frontend is built using React, providing a responsive and interactive user interface, while the backend is powered by FastAPI for efficient handling of API requests and CNN model interactions.
 
-In the project directory, you can run:
+### Features
 
-### `npm start`
+* Image Upload: Users can easily upload images of handwritten notes.
+* Text Conversion: Utilizes a state-of-the-art CNN to convert handwriting in the image to editable text.
+* Text Display and Edit: Converted text is displayed and can be edited within the web app.
+* Academic Insights: View the academic research that underpins the CNN model used in this application.
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
+### Authors
 
-The page will reload if you make edits.\
-You will also see any lint errors in the console.
+* Patrick Lapid
+* Colt Kondo
+* Daniel Marzo
+* Moojin Ahn
 
-### `npm test`
+## Getting Started
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+### Prerequisites
 
-### `npm run build`
+* Node.js
+* Python 3.11+
+* pip
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+### Clone the Repository
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+```bash
+git clone https://github.com/Patrick-Lapid/IntroToML.git
+cd IntroToML
+```
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+### Setup the Backend Server
 
-### `npm run eject`
+Navigate to the backend directory and install the required Python dependencies:
 
-**Note: this is a one-way operation. Once you `eject`, you can’t go back!**
+```bash
+cd server
+pip install -r requirements.txt
+```
 
-If you aren’t satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+Run the FastAPI server:
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you’re on your own.
+```bash
+uvicorn main:app --reload
+```
 
-You don’t have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn’t feel obligated to use this feature. However we understand that this tool wouldn’t be useful if you couldn’t customize it when you are ready for it.
+### Setup the Frontend
 
-## Learn More
+Navigate to the client folder
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
+```bash
+cd ../client
+npm install
+```
 
-To learn React, check out the [React documentation](https://reactjs.org/).
+Start the React development server:
+
+```bash
+npm start
+```
