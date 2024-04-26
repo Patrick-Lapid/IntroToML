@@ -8,10 +8,11 @@ import {
   ScrollArea,
   Skeleton,
   Stack,
+  Flex,
   Text,
   rgba,
 } from "@mantine/core";
-// import { useMediaQuery } from '@mantine/hooks';
+import { useMediaQuery } from "@mantine/hooks";
 import FileDropZone from "./components/FileDropzone";
 import { useEffect, useState } from "react";
 import { IconTrash } from "@tabler/icons-react";
@@ -28,7 +29,8 @@ interface File {
 function App() {
   const [files, setFiles] = useState<File[]>([]);
   const [selectedFile, setSelectedFile] = useState<null | File>(null);
-  // const largeScreen = useMediaQuery('(min-width: 768px)'); // Adjust the breakpoint as needed
+  const largeScreen = useMediaQuery("(min-width: 1200px)");
+  const mediumScreen = useMediaQuery("(min-width: 670px)");
 
   // updates selected index state with latest version of file state
   useEffect(() => {
@@ -102,9 +104,13 @@ function App() {
           Upload Document for Text Extraction
         </Text>
         <Card radius="md" padding="lg" shadow="md" bg={rgba("#FFFFFF", 0.6)}>
-          <Group justify="space-between" gap={16}>
+          <Flex
+            justify="space-between"
+            gap={16}
+            direction={largeScreen ? "row" : "column"}
+          >
             <FileDropZone handleFileUpload={fileUpload} />
-            <ScrollArea w={500} h={302}>
+            <ScrollArea miw={mediumScreen ? 500 : 200} h={302}>
               <Stack gap={8} mt={1}>
                 {files.length > 0 &&
                   files.map((file) => (
@@ -140,7 +146,7 @@ function App() {
                   ))}
               </Stack>
             </ScrollArea>
-          </Group>
+          </Flex>
         </Card>
       </Stack>
       {selectedFile && <Overlay color="#000" backgroundOpacity={0.25} />}
@@ -238,7 +244,7 @@ function App() {
         Made with ❤️ by{" "}
         <a href="https://github.com/Patrick-Lapid">Patrick Lapid</a>,{" "}
         <a href="https://github.com/coltkondo">Colt Kondo</a>,{" "}
-        <a href="">Moojin Ahn</a>, & <a href="">Daniel Marzo</a>
+        <a href="/">Moojin Ahn</a>, & <a href="/">Daniel Marzo</a>
       </footer>
     </>
   );

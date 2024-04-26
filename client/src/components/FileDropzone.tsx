@@ -2,6 +2,7 @@ import { Button, Stack, Group, Text, rem } from "@mantine/core";
 import { IconUpload, IconPhoto, IconX } from "@tabler/icons-react";
 import { Dropzone, IMAGE_MIME_TYPE } from "@mantine/dropzone";
 import { useRef } from "react";
+import { useMediaQuery } from "@mantine/hooks";
 
 interface DropZoneProps {
   handleFileUpload: (file: any) => void;
@@ -9,13 +10,13 @@ interface DropZoneProps {
 
 const FileDropZone = (props: DropZoneProps) => {
   const openRef = useRef<() => void>(null);
-
+  const mediumScreen = useMediaQuery("(min-width: 670px)");
   return (
     <Stack gap="sm">
       <Dropzone
         onDrop={(files) => props.handleFileUpload(files[0])}
         onReject={(files) => console.log("rejected files", files)}
-        w={600}
+        miw={mediumScreen ? 600 : 200}
         openRef={openRef}
         maxSize={5 * 1024 ** 2}
         accept={IMAGE_MIME_TYPE}

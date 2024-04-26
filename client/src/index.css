@@ -151,7 +151,9 @@ body {
   position: fixed;
   display: flex;
   justify-content: center;
-  width: 100%;
+  width: 95%;
+  margin-left: 10px;
+  margin-right: 10px;
   top: 0;
   bottom: 0;
   backdrop-filter: blur(8px);
